@@ -13,7 +13,12 @@ app.use(cors());
 mongoose.connect('mongodb://localhost:27017/dishes', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3001", // Allow requests from frontend
+    methods: ["GET", "POST"]
+  }
+});
 
 io.on('connection', (socket) => {
   console.log('New client connected');
